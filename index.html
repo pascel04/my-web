@@ -1,24 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Dòng Tiền Tiểu Thương</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; display: flex; justify-content: center; padding: 20px; }
+        .container { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        h2 { color: #333; text-align: center; margin-bottom: 20px; }
+        label { font-weight: bold; font-size: 14px; color: #555; }
+        input { width: 100%; padding: 12px; margin: 8px 0 18px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        button { width: 100%; padding: 15px; background-color: #007bff; color: white; border: none; border-radius: 8px; font-size: 18px; cursor: pointer; transition: 0.3s; }
+        button:hover { background-color: #0056b3; }
+        .result-box { margin-top: 20px; padding: 15px; background-color: #e9ecef; border-radius: 8px; line-height: 1.6; display: none; }
+        .profit { color: #28a745; font-weight: bold; }
+        .tax-text { color: #dc3545; font-weight: bold; }
+    </style>
+</head>
 <body>
 
-<h2>Tính thuế</h2>
+<div class="container">
+    <h2>Quản Lý Dòng Tiền</h2>
 
-<input id="revenue" placeholder="Doanh thu"><br><br>
-<input id="cost" placeholder="Chi phí"><br><br>
+    <label>Doanh thu (VNĐ):</label>
+    <input type="number" id="revenue" placeholder="Ví dụ: 5000000">
+    
+    <label>Chi phí (VNĐ):</label>
+    <input type="number" id="cost" placeholder="Ví dụ: 2000000">
 
-<button onclick="calc()">Tính</button>
+    <label>Mức thuế (%):</label>
+    <input type="number" id="taxRate" placeholder="Ví dụ: 1.5 hoặc 5" step="0.1">
 
-<p id="kq"></p>
+    <button onclick="calc()">Tính Kết Quả</button>
+
+    <div id="resultArea" class="result-box">
+        <p id="kq_tax"></p>
+        <p id="kq_profit"></p>
+        <hr>
+        <p id="kq_final" style="font-size: 1.1em;"></p>
+    </div>
+</div>
 
 <script>
 function calc() {
-  let r = Number(document.getElementById("revenue").value);
-  let c = Number(document.getElementById("cost").value);
-  let tax = r * 0.05;
+    // 1. Lấy dữ liệu từ 3 ô nhập
+    let r = Number(document.getElementById("revenue").value);
+    let c = Number(document.getElementById("cost").value);
+    let rate = Number(document.getElementById("taxRate").value);
+    
+    // 2. Tính toán theo mức thuế người dùng nhập
+    let tax = r * (rate / 100); 
+    let profitBeforeTax = r - c;
+    let finalMoney = r - c - tax;
 
-  document.getElementById("kq").innerHTML =
-    "Thuế: " + tax;
+    // 3. Định dạng số
+    const format = (num) => num.toLocaleString('vi-VN');
+
+    // 4. Hiển thị
+    document.getElementById("resultArea").style.display = "block";
+    document.getElementById("kq_tax").innerHTML = "Tiền thuế (" + rate + "%): <span class='tax-text'>-" + format(tax) + " VNĐ</span>";
+    document.getElementById("kq_profit").innerHTML = "Lợi nhuận gộp: " + format(profitBeforeTax) + " VNĐ";
+    document.getElementById("kq_final").innerHTML = "<b>Tiền thực cầm: </b><span class='profit'>" + format(finalMoney) + " VNĐ</span>";
 }
 </script>
 
