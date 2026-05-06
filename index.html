@@ -3,112 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản Lý Dòng Tiền Tiểu Thương</title>
+    <title>Quản Lý Thu Chi Chi Tiết</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; padding: 20px; }
-        .container { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 450px; }
-        h2 { color: #1a73e8; text-align: center; margin-bottom: 20px; }
-        label { font-weight: 600; font-size: 14px; color: #444; }
-        input { width: 100%; padding: 12px; margin: 8px 0 15px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
-        .btn-group { display: flex; gap: 10px; }
-        button { flex: 2; padding: 15px; background-color: #1a73e8; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .btn-clear { flex: 1; background-color: #6c757d; }
-        button:hover { opacity: 0.9; }
-        .result-box { margin-top: 20px; padding: 15px; background-color: #e8f0fe; border-radius: 8px; border-left: 5px solid #1a73e8; display: none; }
-        .history-section { margin-top: 30px; border-top: 2px solid #eee; pt: 20px; }
-        .history-item { font-size: 13px; padding: 10px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; }
-        .profit { color: #28a745; font-weight: bold; }
-        .tax-text { color: #dc3545; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; padding: 20px; }
+        .container { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 500px; }
+        h2 { color: #1a73e8; text-align: center; }
+        
+        .section { margin-bottom: 20px; padding: 15px; border: 1px solid #eee; border-radius: 10px; }
+        .section-title { font-weight: bold; margin-bottom: 10px; color: #444; display: flex; justify-content: space-between; }
+        
+        .input-group { display: flex; gap: 5px; margin-bottom: 8px; }
+        input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; }
+        
+        .btn-add { background: #e8f0fe; color: #1a73e8; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 12px; }
+        .btn-add:hover { background: #d2e3fc; }
+        
+        .btn-calc { width: 100%; padding: 15px; background: #1a73e8; color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        
+        .result-box { margin-top: 20px; padding: 15px; background: #343a40; color: white; border-radius: 8px; display: none; }
+        .res-row { display: flex; justify-content: space-between; margin-bottom: 5px; }
+        .final-amount { font-size: 1.3em; color: #4ade80; border-top: 1px solid #555; pt: 10px; mt: 5px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Quản Lý Dòng Tiền</h2>
+    <h2>Sổ Thu Chi Thông Minh</h2>
 
-    <label>Doanh thu (VNĐ):</label>
-    <input type="number" id="revenue" placeholder="Ví dụ: 5000000">
-    
-    <label>Chi phí (VNĐ):</label>
-    <input type="number" id="cost" placeholder="Ví dụ: 2000000">
-
-    <label>Mức thuế (%):</label>
-    <input type="number" id="taxRate" placeholder="Ví dụ: 1.5">
-
-    <div class="btn-group">
-        <button onclick="calc()">TÍNH & LƯU</button>
-        <button class="btn-clear" onclick="clearAll()">XÓA</button>
+    <div class="section">
+        <div class="section-title">
+            <span>DOANH THU (Đơn hàng)</span>
+            <button class="btn-add" onclick="addField('revenue-list')">+ Thêm đơn</button>
+        </div>
+        <div id="revenue-list">
+            <div class="input-group"><input type="number" class="rev-input" placeholder="Nhập số tiền đơn hàng"></div>
+        </div>
     </div>
+
+    <div class="section">
+        <div class="section-title">
+            <span>CHI PHÍ (Nhập hàng, điện nước...)</span>
+            <button class="btn-add" onclick="addField('cost-list')">+ Thêm chi phí</button>
+        </div>
+        <div id="cost-list">
+            <div class="input-group"><input type="number" class="cost-input" placeholder="Nhập số tiền chi"></div>
+        </div>
+    </div>
+
+    <div style="padding: 0 15px;">
+        <label style="font-size: 13px; font-weight: bold;">Mức thuế (%)</label>
+        <input type="number" id="taxRate" value="1.5" style="width: 60px; margin-left: 10px;">
+    </div>
+
+    <button class="btn-calc" onclick="calculateAll()">TÍNH TỔNG KẾT</button>
 
     <div id="resultArea" class="result-box">
-        <p id="kq_tax"></p>
-        <p id="kq_final" style="font-size: 1.2em;"></p>
-    </div>
-
-    <div class="history-section">
-        <h4 style="margin-bottom: 10px;">Lịch sử hôm nay</h4>
-        <div id="historyList"></div>
-        <button onclick="clearHistory()" style="background: none; color: #dc3545; font-size: 12px; border: none; padding: 5px; cursor: pointer; width: auto; font-weight: normal;">Xóa lịch sử</button>
+        <div class="res-row"><span>Tổng doanh thu:</span> <span id="totalRev">0</span></div>
+        <div class="res-row"><span>Tổng chi phí:</span> <span id="totalCost">0</span></div>
+        <div class="res-row"><span>Tiền thuế:</span> <span id="totalTax" style="color: #ff8787;">0</span></div>
+        <div class="res-row final-amount"><span>THỰC CẦM:</span> <span id="finalMoney">0</span></div>
     </div>
 </div>
 
 <script>
-    // Hàm hiển thị lịch sử khi vừa mở web
-    window.onload = function() {
-        showHistory();
-    };
+    // Hàm thêm ô nhập mới
+    function addField(containerId) {
+        const container = document.getElementById(containerId);
+        const div = document.createElement('div');
+        div.className = 'input-group';
+        const className = containerId === 'revenue-list' ? 'rev-input' : 'cost-input';
+        div.innerHTML = `<input type="number" class="${className}" placeholder="Nhập số tiền">`;
+        container.appendChild(div);
+    }
 
-    function calc() {
-        let r = Number(document.getElementById("revenue").value);
-        let c = Number(document.getElementById("cost").value);
+    function calculateAll() {
+        // Cộng tổng doanh thu
+        let totalRev = 0;
+        document.querySelectorAll('.rev-input').forEach(input => {
+            totalRev += Number(input.value);
+        });
+
+        // Cộng tổng chi phí
+        let totalCost = 0;
+        document.querySelectorAll('.cost-input').forEach(input => {
+            totalCost += Number(input.value);
+        });
+
+        // Tính thuế
         let rate = Number(document.getElementById("taxRate").value);
-        
-        if(r === 0) return alert("Vui lòng nhập doanh thu!");
+        let tax = totalRev * (rate / 100);
+        let final = totalRev - totalCost - tax;
 
-        let tax = r * (rate / 100); 
-        let finalMoney = r - c - tax;
-        const format = (num) => num.toLocaleString('vi-VN');
+        const format = (num) => num.toLocaleString('vi-VN') + " đ";
 
-        // Hiển thị kết quả hiện tại
+        // Hiển thị kết quả
         document.getElementById("resultArea").style.display = "block";
-        document.getElementById("kq_tax").innerHTML = "Thuế: <span class='tax-text'>-" + format(tax) + "</span>";
-        document.getElementById("kq_final").innerHTML = "<b>Thực cầm: </b><span class='profit'>" + format(finalMoney) + " VNĐ</span>";
-
-        // LƯU VÀO LỊCH SỬ (LocalStorage)
-        saveToHistory(finalMoney);
-    }
-
-    function saveToHistory(amount) {
-        let history = JSON.parse(localStorage.getItem("moneyHistory") || "[]");
-        let time = new Date().toLocaleTimeString('vi-VN', {hour: '2-digit', minute:'2-digit'});
-        history.unshift({ time: time, amount: amount }); // Thêm vào đầu danh sách
-        if(history.length > 5) history.pop(); // Chỉ giữ 5 mục gần nhất cho gọn
-        localStorage.setItem("moneyHistory", JSON.stringify(history));
-        showHistory();
-    }
-
-    function showHistory() {
-        let history = JSON.parse(localStorage.getItem("moneyHistory") || "[]");
-        let html = history.map(item => `
-            <div class="history-item">
-                <span>${item.time}</span>
-                <span class="profit">+${item.amount.toLocaleString('vi-VN')}</span>
-            </div>
-        `).join('');
-        document.getElementById("historyList").innerHTML = html || "<p style='color:#999; font-size:12px;'>Chưa có giao dịch nào</p>";
-    }
-
-    function clearAll() {
-        document.getElementById("revenue").value = "";
-        document.getElementById("cost").value = "";
-        document.getElementById("resultArea").style.display = "none";
-    }
-
-    function clearHistory() {
-        if(confirm("Bạn muốn xóa hết lịch sử tính toán?")) {
-            localStorage.removeItem("moneyHistory");
-            showHistory();
-        }
+        document.getElementById("totalRev").innerText = format(totalRev);
+        document.getElementById("totalCost").innerText = format(totalCost);
+        document.getElementById("totalTax").innerText = "-" + format(tax);
+        document.getElementById("finalMoney").innerText = format(final);
     }
 </script>
 
