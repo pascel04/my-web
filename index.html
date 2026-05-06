@@ -3,26 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản Lý Thu Chi Chi Tiết</title>
+    <title>Sổ Thu Chi - Có Nút Xóa</title>
     <style>
         body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; padding: 20px; }
         .container { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 500px; }
         h2 { color: #1a73e8; text-align: center; }
         
         .section { margin-bottom: 20px; padding: 15px; border: 1px solid #eee; border-radius: 10px; }
-        .section-title { font-weight: bold; margin-bottom: 10px; color: #444; display: flex; justify-content: space-between; }
+        .section-title { font-weight: bold; margin-bottom: 10px; color: #444; display: flex; justify-content: space-between; align-items: center; }
         
-        .input-group { display: flex; gap: 5px; margin-bottom: 8px; }
+        .input-group { display: flex; gap: 5px; margin-bottom: 8px; align-items: center; }
         input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; }
         
-        .btn-add { background: #e8f0fe; color: #1a73e8; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 12px; }
+        /* Nút Xóa dòng */
+        .btn-del { background: none; color: #dc3545; border: none; font-weight: bold; cursor: pointer; padding: 5px 10px; font-size: 18px; }
+        .btn-del:hover { color: #a71d2a; }
+
+        .btn-add { background: #e8f0fe; color: #1a73e8; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; font-size: 12px; font-weight: bold; }
         .btn-add:hover { background: #d2e3fc; }
         
         .btn-calc { width: 100%; padding: 15px; background: #1a73e8; color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 10px; }
         
         .result-box { margin-top: 20px; padding: 15px; background: #343a40; color: white; border-radius: 8px; display: none; }
         .res-row { display: flex; justify-content: space-between; margin-bottom: 5px; }
-        .final-amount { font-size: 1.3em; color: #4ade80; border-top: 1px solid #555; pt: 10px; mt: 5px; }
+        .final-amount { font-size: 1.3em; color: #4ade80; border-top: 1px solid #555; padding-top: 10px; margin-top: 5px; }
     </style>
 </head>
 <body>
@@ -30,29 +34,37 @@
 <div class="container">
     <h2>Sổ Thu Chi Thông Minh</h2>
 
+    <!-- Phần Doanh Thu -->
     <div class="section">
         <div class="section-title">
             <span>DOANH THU (Đơn hàng)</span>
             <button class="btn-add" onclick="addField('revenue-list')">+ Thêm đơn</button>
         </div>
         <div id="revenue-list">
-            <div class="input-group"><input type="number" class="rev-input" placeholder="Nhập số tiền đơn hàng"></div>
+            <div class="input-group">
+                <input type="number" class="rev-input" placeholder="Số tiền đơn hàng">
+                <button class="btn-del" onclick="this.parentElement.remove()">×</button>
+            </div>
         </div>
     </div>
 
+    <!-- Phần Chi Phí -->
     <div class="section">
         <div class="section-title">
-            <span>CHI PHÍ (Nhập hàng, điện nước...)</span>
+            <span>CHI PHÍ (Các khoản chi)</span>
             <button class="btn-add" onclick="addField('cost-list')">+ Thêm chi phí</button>
         </div>
         <div id="cost-list">
-            <div class="input-group"><input type="number" class="cost-input" placeholder="Nhập số tiền chi"></div>
+            <div class="input-group">
+                <input type="number" class="cost-input" placeholder="Số tiền chi">
+                <button class="btn-del" onclick="this.parentElement.remove()">×</button>
+            </div>
         </div>
     </div>
 
-    <div style="padding: 0 15px;">
+    <div style="padding: 0 15px; margin-bottom: 10px;">
         <label style="font-size: 13px; font-weight: bold;">Mức thuế (%)</label>
-        <input type="number" id="taxRate" value="1.5" style="width: 60px; margin-left: 10px;">
+        <input type="number" id="taxRate" value="1.5" style="width: 60px; margin-left: 10px; padding: 5px;">
     </div>
 
     <button class="btn-calc" onclick="calculateAll()">TÍNH TỔNG KẾT</button>
@@ -66,37 +78,36 @@
 </div>
 
 <script>
-    // Hàm thêm ô nhập mới
     function addField(containerId) {
         const container = document.getElementById(containerId);
         const div = document.createElement('div');
         div.className = 'input-group';
         const className = containerId === 'revenue-list' ? 'rev-input' : 'cost-input';
-        div.innerHTML = `<input type="number" class="${className}" placeholder="Nhập số tiền">`;
+        
+        div.innerHTML = `
+            <input type="number" class="${className}" placeholder="Nhập số tiền">
+            <button class="btn-del" onclick="this.parentElement.remove()">×</button>
+        `;
         container.appendChild(div);
     }
 
     function calculateAll() {
-        // Cộng tổng doanh thu
         let totalRev = 0;
         document.querySelectorAll('.rev-input').forEach(input => {
             totalRev += Number(input.value);
         });
 
-        // Cộng tổng chi phí
         let totalCost = 0;
         document.querySelectorAll('.cost-input').forEach(input => {
             totalCost += Number(input.value);
         });
 
-        // Tính thuế
         let rate = Number(document.getElementById("taxRate").value);
         let tax = totalRev * (rate / 100);
         let final = totalRev - totalCost - tax;
 
         const format = (num) => num.toLocaleString('vi-VN') + " đ";
 
-        // Hiển thị kết quả
         document.getElementById("resultArea").style.display = "block";
         document.getElementById("totalRev").innerText = format(totalRev);
         document.getElementById("totalCost").innerText = format(totalCost);
