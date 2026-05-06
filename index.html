@@ -3,12 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sổ Thu Chi Pro - Chính Xác 2026</title>
+    
+    <!-- PHẦN MỚI: TỐI ƯU TÌM KIẾM (SEO) -->
+    <title>Sổ Thu Chi 2026 - Công Cụ Tính Thuế Hộ Kinh Doanh Miễn Phí</title>
+    <meta name="description" content="Ứng dụng quản lý thu chi và tính thuế tự động cho hộ kinh doanh năm 2026. Hỗ trợ tính thuế theo Tháng, Quý, Năm và cập nhật ngưỡng miễn thuế 1 tỷ đồng.">
+    <meta name="keywords" content="tính thuế hộ kinh doanh 2026, miễn thuế 1 tỷ, quản lý thu chi, sổ thu chi online, cách tính thuế gtgt tncn">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Sổ Thu Chi Pro">
+
     <style>
         :root { --primary: #2563eb; --success: #059669; --danger: #dc2626; --bg: #f8fafc; }
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); display: flex; justify-content: center; padding: 20px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); display: flex; justify-content: center; padding: 20px; }
         .container { background: white; padding: 24px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 480px; }
-        h2 { text-align: center; color: var(--primary); font-size: 22px; margin-bottom: 24px; }
+        h1 { text-align: center; color: var(--primary); font-size: 22px; margin-bottom: 24px; font-weight: 800; }
         .section { margin-bottom: 20px; padding: 16px; border-radius: 12px; border: 1px solid #e2e8f0; }
         .section-revenue { background-color: #eff6ff; border-color: #bfdbfe; }
         .section-cost { background-color: #fff7ed; border-color: #ffedd5; }
@@ -18,33 +25,53 @@
         input { flex: 1; }
         .btn-del { background: #fff; color: var(--danger); border: 1px solid #fecaca; border-radius: 8px; width: 40px; cursor: pointer; }
         .btn-add { background: white; color: var(--primary); border: 1px solid var(--primary); padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: bold; }
-        .btn-calc { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; margin: 15px 0; }
+        .btn-calc { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; margin: 15px 0; transition: 0.3s; }
+        .btn-calc:hover { background: #1d4ed8; }
         .result-box { padding: 20px; background: #0f172a; color: white; border-radius: 16px; display: none; margin-bottom: 24px; }
         .res-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; }
         .final-amount { font-size: 20px; border-top: 1px solid #334155; padding-top: 12px; margin-top: 8px; font-weight: bold; color: #4ade80; }
         .history-section { border-top: 1px solid #e2e8f0; padding-top: 20px; }
         .history-item { background: #f1f5f9; margin-bottom: 8px; padding: 12px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
-        .tax-info { font-size: 12px; color: #4ade80; margin-bottom: 10px; font-style: italic; display: none; }
+        .tax-info { font-size: 12px; color: #4ade80; margin-bottom: 10px; font-style: italic; display: none; text-align: center; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Sổ Thu Chi Pro</h2>
+    <h1>Sổ Thu Chi & Thuế 2026</h1>
 
+    <!-- DOANH THU -->
     <div class="section section-revenue">
-        <div class="section-title" style="color: #1e40af;"><span>💰 DOANH THU</span><button class="btn-add" onclick="addField('rev-list')">+ THÊM</button></div>
-        <div id="rev-list"><div class="input-group"><input type="number" class="rev-in" placeholder="0"><button class="btn-del" onclick="this.parentElement.remove()">×</button></div></div>
+        <div class="section-title" style="color: #1e40af;">
+            <span>💰 DOANH THU</span>
+            <button class="btn-add" onclick="addField('rev-list')">+ THÊM</button>
+        </div>
+        <div id="rev-list">
+            <div class="input-group">
+                <input type="number" class="rev-in" placeholder="Số tiền thu">
+                <button class="btn-del" onclick="this.parentElement.remove()">×</button>
+            </div>
+        </div>
     </div>
 
+    <!-- CHI PHÍ -->
     <div class="section section-cost">
-        <div class="section-title" style="color: #9a3412;"><span>💸 CHI PHÍ</span><button class="btn-add" onclick="addField('cost-list')">+ THÊM</button></div>
-        <div id="cost-list"><div class="input-group"><input type="number" class="cost-in" placeholder="0"><button class="btn-del" onclick="this.parentElement.remove()">×</button></div></div>
+        <div class="section-title" style="color: #9a3412;">
+            <span>💸 CHI PHÍ</span>
+            <button class="btn-add" onclick="addField('cost-list')">+ THÊM</button>
+        </div>
+        <div id="cost-list">
+            <div class="input-group">
+                <input type="number" class="cost-in" placeholder="Số tiền chi">
+                <button class="btn-del" onclick="this.parentElement.remove()">×</button>
+            </div>
+        </div>
     </div>
 
+    <!-- CÀI ĐẶT KỲ HẠN -->
     <div style="padding: 0 8px 15px; display: flex; flex-direction: column; gap: 12px;">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-size: 14px; font-weight: bold;">Kỳ kê khai:</span>
+            <span style="font-size: 14px; font-weight: bold; color: #64748b;">Kỳ nộp thuế:</span>
             <select id="taxPeriod">
                 <option value="12">Theo Năm</option>
                 <option value="3" selected>Theo Quý</option>
@@ -52,29 +79,30 @@
             </select>
         </div>
         <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-size: 14px; font-weight: bold;">Thuế (%):</span>
-            <input type="number" id="taxRate" value="1.5" style="width: 70px; flex: none;">
+            <span style="font-size: 14px; font-weight: bold; color: #64748b;">Thuế mặc định (%):</span>
+            <input type="number" id="taxRate" value="1.5" style="width: 70px; flex: none; text-align: center;">
         </div>
     </div>
 
     <button class="btn-calc" onclick="calculateAll()">TÍNH & LƯU LỊCH SỬ</button>
 
     <div id="resultArea" class="result-box">
-        <div id="taxNote" class="tax-info">✓ Miễn thuế theo quy định 2026</div>
-        <div class="res-row"><span>Doanh thu:</span> <span id="outRev">0</span></div>
-        <div class="res-row"><span>Chi phí:</span> <span id="outCost">0</span></div>
-        <div class="res-row"><span>Thuế:</span> <span id="outTax" style="color: #fb7185;">0</span></div>
+        <div id="taxNote" class="tax-info">✓ Miễn thuế GTGT & TNCN (Quy định 2026)</div>
+        <div class="res-row"><span style="color: #94a3b8;">Doanh thu:</span> <span id="outRev">0</span></div>
+        <div class="res-row"><span style="color: #94a3b8;">Chi phí:</span> <span id="outCost">0</span></div>
+        <div class="res-row"><span style="color: #94a3b8;">Tiền thuế:</span> <span id="outTax" style="color: #fb7185;">0</span></div>
         <div class="res-row final-amount"><span>THỰC CẦM:</span> <span id="outFinal">0</span></div>
     </div>
 
     <div class="history-section">
-        <div style="font-weight: bold; margin-bottom: 12px;">Lịch sử hôm nay</div>
+        <div style="font-weight: 800; margin-bottom: 12px; font-size: 14px; color: #475569;">NHẬT KÝ GẦN ĐÂY</div>
         <div id="historyDisplay"></div>
-        <button onclick="clearHistory()" style="width:100%; background:none; border:none; color:#94a3b8; font-size:11px; cursor:pointer; margin-top:10px;">Xóa lịch sử</button>
+        <button onclick="clearHistory()" style="width:100%; background:none; border:none; color:#94a3b8; font-size:11px; cursor:pointer; margin-top:10px;">XÓA LỊCH SỬ</button>
     </div>
 </div>
 
 <script>
+    // Tự động tải lịch sử khi mở trang
     window.onload = showHistory;
 
     function addField(id) {
@@ -89,8 +117,8 @@
         let r = 0; document.querySelectorAll('.rev-in').forEach(i => r += Number(i.value));
         let c = 0; document.querySelectorAll('.cost-in').forEach(i => c += Number(i.value));
         
+        // Tính toán ngưỡng miễn thuế dựa trên kỳ hạn (1 tỷ / 12 tháng)
         let months = Number(document.getElementById("taxPeriod").value);
-        // Ngưỡng miễn thuế: 1 tỷ / 12 tháng * số tháng của kỳ
         let limit = (1000000000 / 12) * months; 
 
         let tax = 0;
@@ -105,40 +133,53 @@
         let final = r - c - tax;
         const fmt = (n) => n.toLocaleString('vi-VN') + " đ";
 
+        // Hiển thị kết quả
         document.getElementById("resultArea").style.display = "block";
         document.getElementById("taxNote").style.display = isFree ? "block" : "none";
         document.getElementById("outRev").innerText = fmt(r);
         document.getElementById("outCost").innerText = fmt(c);
         document.getElementById("outTax").innerText = "-" + fmt(tax);
-        document.getElementById("outFinal").innerText = (final >= 0 ? "+" : "") + fmt(final);
+        
+        const finalEl = document.getElementById("outFinal");
+        finalEl.innerText = (final >= 0 ? "+" : "") + fmt(final);
+        finalEl.style.color = final >= 0 ? "#4ade80" : "#fb7185";
 
         saveHistory(final);
     }
 
     function saveHistory(amt) {
-        let history = JSON.parse(localStorage.getItem("finalFixHis") || "[]");
+        let history = JSON.parse(localStorage.getItem("thuchi2026_v3") || "[]");
         let time = new Date().toLocaleTimeString('vi-VN', {hour: '2-digit', minute:'2-digit'});
         history.unshift({ time, amount: amt });
-        if(history.length > 5) history.pop();
-        localStorage.setItem("finalFixHis", JSON.stringify(history));
+        if(history.length > 5) history.pop(); // Lưu tối đa 5 lần gần nhất
+        localStorage.setItem("thuchi2026_v3", JSON.stringify(history));
         showHistory();
     }
 
     function showHistory() {
-        let history = JSON.parse(localStorage.getItem("finalFixHis") || "[]");
-        document.getElementById("historyDisplay").innerHTML = history.map(h => `
+        let history = JSON.parse(localStorage.getItem("thuchi2026_v3") || "[]");
+        const display = document.getElementById("historyDisplay");
+        if (history.length === 0) {
+            display.innerHTML = "<p style='text-align:center; color:#94a3b8; font-size:12px;'>Chưa có dữ liệu lịch sử</p>";
+            return;
+        }
+        display.innerHTML = history.map(h => `
             <div class="history-item">
                 <span style="color:#64748b">${h.time}</span>
                 <span style="font-weight:bold; color:${h.amount >= 0 ? '#059669' : '#dc2626'}">
                     ${h.amount >= 0 ? '+' : ''}${h.amount.toLocaleString('vi-VN')} đ
                 </span>
             </div>
-        `).join('') || "<p style='text-align:center; color:#94a3b8; font-size:12px;'>Chưa có dữ liệu</p>";
+        `).join('');
     }
 
     function clearHistory() {
-        if(confirm("Xóa lịch sử?")) { localStorage.removeItem("finalFixHis"); showHistory(); }
+        if(confirm("Bạn có chắc chắn muốn xóa toàn bộ lịch sử?")) {
+            localStorage.removeItem("thuchi2026_v3");
+            showHistory();
+        }
     }
 </script>
+
 </body>
 </html>
