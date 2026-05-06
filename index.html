@@ -3,62 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sổ Thu Chi - Fix Lỗi Hiển Thị</title>
+    <title>Sổ Thu Chi Pro - Thuế 2026</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; padding: 20px; }
-        .container { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 500px; }
-        h2 { color: #1a73e8; text-align: center; margin-bottom: 20px; }
-        .section { margin-bottom: 20px; padding: 15px; border: 1px solid #eee; border-radius: 10px; background-color: #fafafa; }
-        .section-title { font-weight: bold; margin-bottom: 12px; color: #444; display: flex; justify-content: space-between; align-items: center; }
-        .input-group { display: flex; gap: 8px; margin-bottom: 10px; align-items: center; }
-        input { flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; }
-        .btn-del { background: #fee2e2; color: #dc2626; border: none; border-radius: 50%; width: 30px; height: 30px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; }
-        .btn-add { background: #1a73e8; color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: bold; }
-        .btn-calc { width: 100%; padding: 16px; background: #059669; color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; margin: 15px 0; }
-        .result-box { padding: 20px; background: #1f2937; color: white; border-radius: 12px; display: none; margin-bottom: 25px; }
-        .res-row { display: flex; justify-content: space-between; margin-bottom: 8px; }
-        .final-amount { font-size: 1.4em; border-top: 1px solid #4b5563; padding-top: 12px; margin-top: 8px; font-weight: bold; }
-        .history-section { border-top: 2px solid #eee; padding-top: 20px; }
-        .history-item { font-size: 14px; padding: 12px; border-bottom: 1px solid #f3f4f6; display: flex; justify-content: space-between; align-items: center; }
-        .btn-clear-his { background: none; border: none; color: #9ca3af; font-size: 12px; cursor: pointer; margin-top: 15px; text-decoration: underline; width: 100%; text-align: center; }
-        /* Màu sắc động cho lịch sử */
-        .txt-pos { color: #059669; font-weight: bold; } /* Màu xanh khi lãi */
-        .txt-neg { color: #dc2626; font-weight: bold; } /* Màu đỏ khi lỗ */
+        :root {
+            --primary: #2563eb;
+            --success: #059669;
+            --danger: #dc2626;
+            --bg: #f8fafc;
+        }
+        body { font-family: 'Inter', system-ui, sans-serif; background-color: var(--bg); display: flex; justify-content: center; padding: 20px; color: #1e293b; }
+        .container { background: white; padding: 24px; border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); width: 100%; max-width: 480px; }
+        h2 { text-align: center; color: var(--primary); font-size: 22px; margin-bottom: 24px; font-weight: 800; }
+        .section { margin-bottom: 20px; padding: 16px; border-radius: 12px; border: 1px solid #e2e8f0; }
+        .section-revenue { background-color: #eff6ff; border-color: #bfdbfe; }
+        .section-cost { background-color: #fff7ed; border-color: #ffedd5; }
+        .section-title { font-weight: 700; font-size: 14px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .input-group { display: flex; gap: 8px; margin-bottom: 8px; }
+        input { flex: 1; padding: 12px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 15px; }
+        .btn-del { background: #fff; color: var(--danger); border: 1px solid #fecaca; border-radius: 8px; width: 40px; cursor: pointer; font-size: 18px; }
+        .btn-add { background: white; color: var(--primary); border: 1px solid var(--primary); padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 600; }
+        .btn-calc { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; margin: 10px 0; }
+        .result-box { padding: 20px; background: #0f172a; color: white; border-radius: 16px; display: none; margin-bottom: 24px; }
+        .res-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; color: #94a3b8; }
+        .final-amount { font-size: 20px; border-top: 1px solid #334155; padding-top: 12px; margin-top: 8px; font-weight: 700; color: white; }
+        .history-section { border-top: 1px solid #e2e8f0; padding-top: 20px; }
+        .history-item { background: #f1f5f9; margin-bottom: 8px; padding: 12px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
+        .tax-note { font-size: 12px; color: #4ade80; margin-top: 5px; font-style: italic; display: none; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Quản Lý Thu Chi</h2>
+    <h2>Sổ Thu Chi Pro</h2>
 
-    <div class="section">
-        <div class="section-title"><span>DOANH THU</span><button class="btn-add" onclick="addField('rev-list')">+ Thêm đơn</button></div>
-        <div id="rev-list"><div class="input-group"><input type="number" class="rev-in" placeholder="Số tiền đơn"><button class="btn-del" onclick="this.parentElement.remove()">×</button></div></div>
+    <!-- GIỮ NGUYÊN PHẦN DOANH THU -->
+    <div class="section section-revenue">
+        <div class="section-title" style="color: #1e40af;">
+            <span>💰 DOANH THU</span>
+            <button class="btn-add" onclick="addField('rev-list')">+ THÊM</button>
+        </div>
+        <div id="rev-list">
+            <div class="input-group">
+                <input type="number" class="rev-in" placeholder="Nhập số tiền">
+                <button class="btn-del" onclick="this.parentElement.remove()">×</button>
+            </div>
+        </div>
     </div>
 
-    <div class="section">
-        <div class="section-title"><span>CHI PHÍ</span><button class="btn-add" onclick="addField('cost-list')">+ Thêm chi phí</button></div>
-        <div id="cost-list"><div class="input-group"><input type="number" class="cost-in" placeholder="Số tiền chi"><button class="btn-del" onclick="this.parentElement.remove()">×</button></div></div>
+    <!-- GIỮ NGUYÊN PHẦN CHI PHÍ -->
+    <div class="section section-cost">
+        <div class="section-title" style="color: #9a3412;">
+            <span>💸 CHI PHÍ</span>
+            <button class="btn-add" onclick="addField('cost-list')">+ THÊM</button>
+        </div>
+        <div id="cost-list">
+            <div class="input-group">
+                <input type="number" class="cost-in" placeholder="Nhập số tiền">
+                <button class="btn-del" onclick="this.parentElement.remove()">×</button>
+            </div>
+        </div>
     </div>
 
-    <div style="padding: 0 10px; margin-bottom: 15px; display: flex; align-items: center;">
-        <label style="font-size: 14px; font-weight: bold;">Thuế (%):</label>
-        <input type="number" id="taxRate" value="1.5" style="width: 70px; margin-left: 10px; padding: 8px;">
+    <!-- GIỮ NGUYÊN Ô NHẬP THUẾ LINH HOẠT -->
+    <div style="padding: 0 8px 16px 8px; display: flex; align-items: center; justify-content: space-between;">
+        <span style="font-size: 14px; font-weight: 600; color: #64748b;">Thuế suất mặc định (%)</span>
+        <input type="number" id="taxRate" value="1.5" style="width: 80px; padding: 8px; text-align: center;">
     </div>
 
     <button class="btn-calc" onclick="calculateAll()">TÍNH & LƯU KẾT QUẢ</button>
 
     <div id="resultArea" class="result-box">
-        <div class="res-row"><span>Tổng doanh thu:</span> <span id="outRev">0</span></div>
-        <div class="res-row"><span>Tổng chi phí:</span> <span id="outCost">0</span></div>
-        <div class="res-row"><span>Tiền thuế:</span> <span id="outTax" style="color: #f87171;">0</span></div>
+        <div class="res-row"><span>Doanh thu:</span> <span id="outRev" style="color: white">0</span></div>
+        <div class="res-row"><span>Chi phí:</span> <span id="outCost" style="color: white">0</span></div>
+        <div class="res-row">
+            <span>Thuế (VAT+TNCN):</span> 
+            <span id="outTax" style="color: #fb7185;">0</span>
+        </div>
+        <div id="taxFreeMsg" class="tax-note">✓ Miễn thuế (Doanh thu ≤ 1 tỷ/năm)</div>
         <div class="res-row final-amount"><span>THỰC CẦM:</span> <span id="outFinal">0</span></div>
     </div>
 
     <div class="history-section">
-        <h4 style="margin: 0 0 15px 0;">Lịch sử hôm nay</h4>
+        <div style="font-weight: 700; margin-bottom: 12px;">Nhật ký thu chi</div>
         <div id="historyDisplay"></div>
-        <button class="btn-clear-his" onclick="clearHistory()">Xóa toàn bộ lịch sử</button>
+        <button onclick="clearHistory()" style="width: 100%; background: none; border: none; color: #94a3b8; font-size: 11px; cursor: pointer; margin-top: 10px;">Xóa lịch sử</button>
     </div>
 </div>
 
@@ -69,17 +97,28 @@
         const div = document.createElement('div');
         div.className = 'input-group';
         const cls = id === 'rev-list' ? 'rev-in' : 'cost-in';
-        div.innerHTML = `<input type="number" class="${cls}" placeholder="Nhập số tiền"><button class="btn-del" onclick="this.parentElement.remove()">×</button>`;
+        div.innerHTML = `<input type="number" class="${cls}" placeholder="0"><button class="btn-del" onclick="this.parentElement.remove()">×</button>`;
         document.getElementById(id).appendChild(div);
     }
 
     function calculateAll() {
         let r = 0; document.querySelectorAll('.rev-in').forEach(i => r += Number(i.value));
         let c = 0; document.querySelectorAll('.cost-in').forEach(i => c += Number(i.value));
-        let rate = Number(document.getElementById("taxRate").value);
-        let tax = r * (rate / 100);
-        let final = r - c - tax;
+        
+        // LOGIC THUẾ MỚI 2026: Miễn thuế nếu doanh thu <= 1 tỷ (1.000.000.000)
+        let tax = 0;
+        let isTaxFree = false;
+        
+        if (r > 1000000000) {
+            let rate = Number(document.getElementById("taxRate").value);
+            tax = r * (rate / 100);
+            isTaxFree = false;
+        } else {
+            tax = 0;
+            isTaxFree = r > 0; // Chỉ hiện thông báo nếu có nhập doanh thu
+        }
 
+        let final = r - c - tax;
         const fmt = (n) => n.toLocaleString('vi-VN') + " đ";
 
         document.getElementById("resultArea").style.display = "block";
@@ -87,46 +126,40 @@
         document.getElementById("outCost").innerText = fmt(c);
         document.getElementById("outTax").innerText = "-" + fmt(tax);
         
+        // Hiển thị dòng thông báo miễn thuế
+        document.getElementById("taxFreeMsg").style.display = isTaxFree ? "block" : "none";
+        
         const finalEl = document.getElementById("outFinal");
         finalEl.innerText = (final > 0 ? "+" : "") + fmt(final);
-        finalEl.style.color = final >= 0 ? "#34d399" : "#f87171";
+        finalEl.style.color = final >= 0 ? "#4ade80" : "#fb7185";
 
         saveHistory(final);
     }
 
     function saveHistory(amt) {
-        let history = JSON.parse(localStorage.getItem("fixedHistory") || "[]");
+        let history = JSON.parse(localStorage.getItem("tax2026History") || "[]");
         let now = new Date();
         let time = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
         history.unshift({ time: time, amount: amt });
         if(history.length > 5) history.pop();
-        localStorage.setItem("fixedHistory", JSON.stringify(history));
+        localStorage.setItem("tax2026History", JSON.stringify(history));
         showHistory();
     }
 
     function showHistory() {
-        let history = JSON.parse(localStorage.getItem("fixedHistory") || "[]");
+        let history = JSON.parse(localStorage.getItem("tax2026History") || "[]");
         const list = document.getElementById("historyDisplay");
-        if (history.length === 0) {
-            list.innerHTML = "<p style='font-size:13px; color:#9ca3af; text-align:center;'>Trống</p>";
-            return;
-        }
-        list.innerHTML = history.map(h => {
-            const isPos = h.amount >= 0;
-            const sign = isPos ? "+" : ""; // Số âm sẽ tự có dấu - từ toLocaleString
-            const colorClass = isPos ? "txt-pos" : "txt-neg";
-            return `
-                <div class="history-item">
-                    <span style="color: #6b7280;">${h.time}</span>
-                    <span class="${colorClass}">${sign}${h.amount.toLocaleString('vi-VN')} đ</span>
-                </div>
-            `;
-        }).join('');
+        list.innerHTML = history.map(h => `
+            <div class="history-item">
+                <span style="color: #64748b;">${h.time}</span>
+                <span style="font-weight:700; color:${h.amount >= 0 ? '#059669' : '#dc2626'}">${h.amount >= 0 ? '+' : ''}${h.amount.toLocaleString('vi-VN')} đ</span>
+            </div>
+        `).join('') || "<p style='text-align:center; color:#94a3b8; font-size:12px;'>Chưa có dữ liệu</p>";
     }
 
     function clearHistory() {
         if(confirm("Xóa lịch sử?")) {
-            localStorage.removeItem("fixedHistory");
+            localStorage.removeItem("tax2026History");
             showHistory();
         }
     }
