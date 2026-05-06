@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Tính thuế</h2>
+
+<input id="revenue" placeholder="Doanh thu"><br><br>
+<input id="cost" placeholder="Chi phí"><br><br>
+
+<button onclick="calc()">Tính</button>
+
+<p id="kq"></p>
+
+<script>
+function calc() {
+  let r = Number(document.getElementById("revenue").value);
+  let c = Number(document.getElementById("cost").value);
+  let tax = r * 0.05;
+
+  document.getElementById("kq").innerHTML =
+    "Thuế: " + tax;
+}
+</script>
+
+</body>
+</html>
