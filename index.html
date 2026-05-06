@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sổ Thu Chi 2026 - Đa Kỳ Hạn</title>
+    <title>Sổ Thu Chi Pro - Chính Xác 2026</title>
     <style>
         :root { --primary: #2563eb; --success: #059669; --danger: #dc2626; --bg: #f8fafc; }
-        body { font-family: 'Inter', system-ui, sans-serif; background-color: var(--bg); display: flex; justify-content: center; padding: 20px; color: #1e293b; }
-        .container { background: white; padding: 24px; border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); width: 100%; max-width: 480px; }
-        h2 { text-align: center; color: var(--primary); font-size: 22px; margin-bottom: 24px; font-weight: 800; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); display: flex; justify-content: center; padding: 20px; }
+        .container { background: white; padding: 24px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 480px; }
+        h2 { text-align: center; color: var(--primary); font-size: 22px; margin-bottom: 24px; }
         .section { margin-bottom: 20px; padding: 16px; border-radius: 12px; border: 1px solid #e2e8f0; }
         .section-revenue { background-color: #eff6ff; border-color: #bfdbfe; }
         .section-cost { background-color: #fff7ed; border-color: #ffedd5; }
@@ -16,81 +16,67 @@
         .input-group { display: flex; gap: 8px; margin-bottom: 8px; }
         input, select { padding: 12px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 15px; }
         input { flex: 1; }
-        .btn-del { background: #fff; color: var(--danger); border: 1px solid #fecaca; border-radius: 8px; width: 40px; cursor: pointer; font-size: 18px; }
-        .btn-add { background: white; color: var(--primary); border: 1px solid var(--primary); padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 600; }
-        .btn-calc { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; margin: 10px 0; }
+        .btn-del { background: #fff; color: var(--danger); border: 1px solid #fecaca; border-radius: 8px; width: 40px; cursor: pointer; }
+        .btn-add { background: white; color: var(--primary); border: 1px solid var(--primary); padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: bold; }
+        .btn-calc { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; margin: 15px 0; }
         .result-box { padding: 20px; background: #0f172a; color: white; border-radius: 16px; display: none; margin-bottom: 24px; }
         .res-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; }
-        .final-amount { font-size: 20px; border-top: 1px solid #334155; padding-top: 12px; margin-top: 8px; font-weight: 700; color: #4ade80; }
-        .alert-box { font-size: 12px; padding: 10px; border-radius: 8px; margin-bottom: 15px; display: none; line-height: 1.4; }
-        .alert-warning { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
-        .alert-info { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+        .final-amount { font-size: 20px; border-top: 1px solid #334155; padding-top: 12px; margin-top: 8px; font-weight: bold; color: #4ade80; }
+        .history-section { border-top: 1px solid #e2e8f0; padding-top: 20px; }
+        .history-item { background: #f1f5f9; margin-bottom: 8px; padding: 12px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+        .tax-info { font-size: 12px; color: #4ade80; margin-bottom: 10px; font-style: italic; display: none; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Sổ Thu Chi 2026</h2>
+    <h2>Sổ Thu Chi Pro</h2>
 
-    <!-- NHẬP DOANH THU -->
     <div class="section section-revenue">
-        <div class="section-title" style="color: #1e40af;">
-            <span>💰 DOANH THU</span>
-            <button class="btn-add" onclick="addField('rev-list')">+ THÊM</button>
-        </div>
-        <div id="rev-list">
-            <div class="input-group">
-                <input type="number" class="rev-in" placeholder="Số tiền đơn">
-                <button class="btn-del" onclick="this.parentElement.remove()">×</button>
-            </div>
-        </div>
+        <div class="section-title" style="color: #1e40af;"><span>💰 DOANH THU</span><button class="btn-add" onclick="addField('rev-list')">+ THÊM</button></div>
+        <div id="rev-list"><div class="input-group"><input type="number" class="rev-in" placeholder="0"><button class="btn-del" onclick="this.parentElement.remove()">×</button></div></div>
     </div>
 
-    <!-- NHẬP CHI PHÍ -->
     <div class="section section-cost">
-        <div class="section-title" style="color: #9a3412;">
-            <span>💸 CHI PHÍ</span>
-            <button class="btn-add" onclick="addField('cost-list')">+ THÊM</button>
-        </div>
-        <div id="cost-list">
-            <div class="input-group">
-                <input type="number" class="cost-in" placeholder="Số tiền chi">
-                <button class="btn-del" onclick="this.parentElement.remove()">×</button>
-            </div>
-        </div>
+        <div class="section-title" style="color: #9a3412;"><span>💸 CHI PHÍ</span><button class="btn-add" onclick="addField('cost-list')">+ THÊM</button></div>
+        <div id="cost-list"><div class="input-group"><input type="number" class="cost-in" placeholder="0"><button class="btn-del" onclick="this.parentElement.remove()">×</button></div></div>
     </div>
 
-    <!-- CÀI ĐẶT KỲ HẠN VÀ THUẾ -->
     <div style="padding: 0 8px 15px; display: flex; flex-direction: column; gap: 12px;">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-size: 14px; font-weight: 600;">Kỳ nộp thuế:</span>
-            <select id="taxPeriod" style="padding: 8px; border-radius: 8px;">
-                <option value="year">Theo Năm (Hộ khoán)</option>
-                <option value="quarter" selected>Theo Quý (Hộ kê khai)</option>
-                <option value="month">Theo Tháng (>50 tỷ/năm)</option>
+            <span style="font-size: 14px; font-weight: bold;">Kỳ kê khai:</span>
+            <select id="taxPeriod">
+                <option value="12">Theo Năm</option>
+                <option value="3" selected>Theo Quý</option>
+                <option value="1">Theo Tháng</option>
             </select>
         </div>
         <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-size: 14px; font-weight: 600;">Thuế suất (%):</span>
-            <input type="number" id="taxRate" value="1.5" style="width: 70px; padding: 8px; flex: none;">
+            <span style="font-size: 14px; font-weight: bold;">Thuế (%):</span>
+            <input type="number" id="taxRate" value="1.5" style="width: 70px; flex: none;">
         </div>
     </div>
 
-    <div id="msgBox" class="alert-box"></div>
-
-    <button class="btn-calc" onclick="calculateAll()">TÍNH & LƯU KẾT QUẢ</button>
+    <button class="btn-calc" onclick="calculateAll()">TÍNH & LƯU LỊCH SỬ</button>
 
     <div id="resultArea" class="result-box">
-        <div class="res-row"><span>Tổng doanh thu:</span> <span id="outRev">0</span></div>
-        <div class="res-row"><span>Tổng chi phí:</span> <span id="outCost">0</span></div>
-        <div class="res-row"><span>Tiền thuế:</span> <span id="outTax" style="color: #fb7185;">0</span></div>
+        <div id="taxNote" class="tax-info">✓ Miễn thuế theo quy định 2026</div>
+        <div class="res-row"><span>Doanh thu:</span> <span id="outRev">0</span></div>
+        <div class="res-row"><span>Chi phí:</span> <span id="outCost">0</span></div>
+        <div class="res-row"><span>Thuế:</span> <span id="outTax" style="color: #fb7185;">0</span></div>
         <div class="res-row final-amount"><span>THỰC CẦM:</span> <span id="outFinal">0</span></div>
     </div>
 
-    <div id="historyDisplay" style="margin-top: 20px;"></div>
+    <div class="history-section">
+        <div style="font-weight: bold; margin-bottom: 12px;">Lịch sử hôm nay</div>
+        <div id="historyDisplay"></div>
+        <button onclick="clearHistory()" style="width:100%; background:none; border:none; color:#94a3b8; font-size:11px; cursor:pointer; margin-top:10px;">Xóa lịch sử</button>
+    </div>
 </div>
 
 <script>
+    window.onload = showHistory;
+
     function addField(id) {
         const div = document.createElement('div');
         div.className = 'input-group';
@@ -102,40 +88,56 @@
     function calculateAll() {
         let r = 0; document.querySelectorAll('.rev-in').forEach(i => r += Number(i.value));
         let c = 0; document.querySelectorAll('.cost-in').forEach(i => c += Number(i.value));
-        let period = document.getElementById("taxPeriod").value;
-        let msg = document.getElementById("msgBox");
         
+        let months = Number(document.getElementById("taxPeriod").value);
+        // Ngưỡng miễn thuế: 1 tỷ / 12 tháng * số tháng của kỳ
+        let limit = (1000000000 / 12) * months; 
+
         let tax = 0;
-        msg.style.display = "none";
+        let isFree = false;
 
-        // Logic 1 tỷ miễn thuế (2026)
-        if (r <= 1000000000) {
-            tax = 0;
-            if(r > 0) {
-                msg.innerHTML = "✓ Chúc mừng! Doanh thu dưới 1 tỷ được miễn thuế GTGT & TNCN.";
-                msg.className = "alert-box alert-info";
-                msg.style.display = "block";
-            }
-        } else {
-            let rate = Number(document.getElementById("taxRate").value);
-            tax = r * (rate / 100);
-        }
-
-        // Cảnh báo 50 tỷ nộp theo tháng
-        if (r > 50000000000 && period !== 'month') {
-            msg.innerHTML = "⚠️ Cảnh báo: Doanh thu > 50 tỷ/năm bắt buộc phải kê khai theo THÁNG.";
-            msg.className = "alert-box alert-warning";
-            msg.style.display = "block";
+        if (r > limit) {
+            tax = r * (Number(document.getElementById("taxRate").value) / 100);
+        } else if (r > 0) {
+            isFree = true;
         }
 
         let final = r - c - tax;
         const fmt = (n) => n.toLocaleString('vi-VN') + " đ";
 
         document.getElementById("resultArea").style.display = "block";
+        document.getElementById("taxNote").style.display = isFree ? "block" : "none";
         document.getElementById("outRev").innerText = fmt(r);
         document.getElementById("outCost").innerText = fmt(c);
         document.getElementById("outTax").innerText = "-" + fmt(tax);
         document.getElementById("outFinal").innerText = (final >= 0 ? "+" : "") + fmt(final);
+
+        saveHistory(final);
+    }
+
+    function saveHistory(amt) {
+        let history = JSON.parse(localStorage.getItem("finalFixHis") || "[]");
+        let time = new Date().toLocaleTimeString('vi-VN', {hour: '2-digit', minute:'2-digit'});
+        history.unshift({ time, amount: amt });
+        if(history.length > 5) history.pop();
+        localStorage.setItem("finalFixHis", JSON.stringify(history));
+        showHistory();
+    }
+
+    function showHistory() {
+        let history = JSON.parse(localStorage.getItem("finalFixHis") || "[]");
+        document.getElementById("historyDisplay").innerHTML = history.map(h => `
+            <div class="history-item">
+                <span style="color:#64748b">${h.time}</span>
+                <span style="font-weight:bold; color:${h.amount >= 0 ? '#059669' : '#dc2626'}">
+                    ${h.amount >= 0 ? '+' : ''}${h.amount.toLocaleString('vi-VN')} đ
+                </span>
+            </div>
+        `).join('') || "<p style='text-align:center; color:#94a3b8; font-size:12px;'>Chưa có dữ liệu</p>";
+    }
+
+    function clearHistory() {
+        if(confirm("Xóa lịch sử?")) { localStorage.removeItem("finalFixHis"); showHistory(); }
     }
 </script>
 </body>
